@@ -1,21 +1,14 @@
 pipeline {
     agent {
-        label 'ALDNDEVC'
+        docker {
+            image 'maven:3-alpine' 
+            args '-v /root/.m2:/root/.m2' 
+        }
     }
     stages {
-        stage('Build') {
+        stage('Build') { 
             steps {
-                sh 'cd /home/sjin_x'
-            }
-        }
-        stage('Test') {
-            steps {
-                sh 'system -kpeb dsplibl'
-            }
-        }
-        stage('Deliver') {
-            steps {
-                sh 'cp /home/sjin_x/workspace/workspace.txt /home/sjin_x'
+                sh 'mvn -B -DskipTests clean package' 
             }
         }
     }
